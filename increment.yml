@@ -1,0 +1,14 @@
+---
+ - name: test incrementation
+   hosts: all
+   vars:
+     count: 1
+   gather_facts: true
+   tasks:
+     - set_fact:
+         count="{{ count | int + 1 }}"
+
+     - name:  print count
+       debug:
+         - var: count
+         - msg "hello"
