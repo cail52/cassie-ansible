@@ -1,6 +1,6 @@
 ---
  - name: all yum tasks
-   hosts: cassandranodes
+   hosts: kubemasters
    become: true
    var casspackages:
     - java 
@@ -15,15 +15,14 @@
          name: yum-utils
          state: present
  
-     - name: get repo
-       yum_repository:
-         name:  added from: http://rpm.datastax.com/community
-         baseurl: http://rpm.datastax.com/community
-         enabled: 1 
+     - name: copy repo
+       copy:
+         src: kubernetes.repo
+         dest: /etc/yum.repos.d
 
      - name: install packages
-        yum:
-         name: "{{item}}
+       yum:
+         name: "{{item}}"
          state: present
-        loop: "{{cassspackages}}" 
+       loop: "{{cassspackages}}" 
        
